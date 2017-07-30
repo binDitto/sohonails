@@ -3,15 +3,15 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const passpoert = require('passport');
+const passport = require('passport');
 const mongoose = require('mongoose');
 
 // INITIALIZE NODE APP
     const app = express();
 
 // SET ROUTE TREE
-    const userRoutes = require('./routes/users');
-    const serviceRoutes = require('./routes/services');
+    const userRoutes = require('./ex_routes/user');
+    const serviceRoutes = require('./ex_routes/service');
 
 // CONNECT TO MONGODB OR MONGOLAB
     const config = require('./config/database');
