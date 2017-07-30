@@ -1,0 +1,23 @@
+{
+  "name": "sohonails",
+  "version": "1.0.0",
+  "description": "Soho Nails & Spa Official App",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "*",
+    "mongoose": "*",
+    "mongoose-unique-validator": "*",
+    "bcryptjs": "*",
+    "cors": "*",
+    "jsonwebtoken": "*",
+    "body-parser": "*",
+    "passport": "*",
+    "passport-jwt": "*"
+  },
+  "author": "\"Bin Tran\"",
+  "license": "ISC"
+}
