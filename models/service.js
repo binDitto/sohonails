@@ -11,7 +11,7 @@
         price: { type: Number, required: true },
         description: { type: String, required: true },
         // Belongs-to one user -- so single user object
-        uer: {
+        user: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',
             required: true
