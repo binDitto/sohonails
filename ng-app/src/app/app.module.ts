@@ -1,5 +1,7 @@
+
 // PROVIDERS
 import { ServiceService } from './services/service.service';
+import { AuthService } from './auth/auth.service';
 
 // IMPORTS
 import { BrowserModule } from '@angular/platform-browser';
@@ -21,7 +23,7 @@ import { ServiceComponent } from './services/service.component';
     BrowserModule,
     HttpModule
   ],
-  providers: [ServiceService],
+  providers: [ServiceService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
