@@ -138,6 +138,26 @@
     });
 
     // FETCH
+    router.get('/:id', (req, res, next) => {
+
+        /*
+            Pull user from mongoose mongo db by using req.params.id.
+        */
+        User.findById(req.params.id, (err, userProfile) => {
+            if (err) {
+                return res.status(500).json({
+                    title: 'Cannot retrieve profile',
+                    error: err
+                });
+            }
+
+            res.status(200).json({
+                message: 'User Profile retrieved',
+                user: userProfile
+            });
+        });
+
+    });
         
 
 // EXPORT THE ROUTER

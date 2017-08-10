@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter, Output} from '@angular/core';
 
 import { Http, Response, Headers } from '@angular/http';
 
@@ -78,5 +78,30 @@ export class AuthService {
     localStorage.clear();
   }
 
+  // GET/RETRIEVE USER
 
+  getProfile(userInfoReq: String){
+
+    const userId = userInfoReq;
+
+    return this.http.get(this.backEnd + '/' + userId)
+                    .map(
+                      (userInfoRes: Response) => userInfoRes.json()
+                    )
+                    .catch(
+                      (error: Response) => {
+                        // this.errorService.handleError(error.json());
+
+                        return Observable.throw(error.json());
+                      }
+                    );
+
+  }
+
+  // EXTRA FUNCTIONALITY
+  @Output() showModal: EventEmitter<any> = new EventEmitter<any>();
+
+  toggleModal(display: any){
+    this.showModal.emit(display);
+  }
 }

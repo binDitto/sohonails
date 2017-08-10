@@ -4,8 +4,8 @@ import {Component, Input } from '@angular/core';
 import { Service } from "./service.model";
 
 @Component({
-  selector: 'service',
-  templateUrl: './service.component.html'
+  selector: 'service-page',
+  templateUrl: './html/service.component.html'
 
 })
 export class ServiceComponent {
