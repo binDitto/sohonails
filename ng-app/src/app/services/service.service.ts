@@ -12,7 +12,7 @@ import { Service } from './service.model';
   export class ServiceService {
     private services: Service[] = [];
 
-    serviceUnderEdit = new EventEmitter<Service>();
+
 
     /*
       The backend node server.
@@ -57,14 +57,19 @@ import { Service } from './service.model';
                         (createdServiceRes: Response) => {
                           // turns createdServiceRes into json format and then saves it to a nerServideData variable.
                           const newServiceData = createdServiceRes.json();
+                          /*
+                            IMPORTANT* to model the front-end service model. Always double-check.
+                          */
                           const newService = new Service (
                             newServiceData.obj.name,
                             newServiceData.obj.price,
                             newServiceData.obj.description,
+                            newServiceData.obj.type,
+                            newServiceData.obj.createdAt,
                             newServiceData.obj._id,
                             // pull user data from service's user field.
                             newServiceData.obj.user._id,
-                            newServiceData.obj.user.firstName
+                            newServiceData.obj.user.userName
                           );
                           this.services.push(newService);
                           return newService;
@@ -87,6 +92,9 @@ import { Service } from './service.model';
       return this.http.get(this.backEnd)
                       .map(
                         (fetchedServicesRes: Response) => {
+
+                          console.log(fetchedServicesRes.json().message);
+
                           let servicesToTransform = fetchedServicesRes.json().obj;
                           let transformedServices: Service[] = [];
                           for (let service of servicesToTransform) {
@@ -101,6 +109,8 @@ import { Service } from './service.model';
                               service.name,
                               service.price,
                               service.description,
+                              service.type,
+                              service.createdAt,
                               service._id,
                               service.user._id,
                               service.user.userName
@@ -121,8 +131,13 @@ import { Service } from './service.model';
     }
 
     // EDIT SERVICE
+    serviceEditSignal = new EventEmitter<Service>();
+    /*
+      Emits the object of th service to be editted.
+      Listen to it on the form to fill up the form fields with it for editing.
+    */
     editService(editServiceReq: Service) {
-      this.serviceUnderEdit.emit(editServiceReq);
+      this.serviceEditSignal.emit(editServiceReq);
     }
 
     // UPDATE SERVICE
@@ -134,7 +149,7 @@ import { Service } from './service.model';
 
       const token =  localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
 
-      return this.http.patch(this.backEnd + updateServiceReq.serviceId + token, requestBody, {headers: jsonHeader})
+      return this.http.patch(this.backEnd + '/' + updateServiceReq.serviceId + token, requestBody, {headers: jsonHeader})
                       .map(
                         (updatedServiceRes: Response) => updatedServiceRes.json()
                       )
@@ -160,7 +175,7 @@ import { Service } from './service.model';
       /*
         Back-end Deletion.
       */
-      return this.http.delete(this.backEnd + deleteServiceReq.serviceId + token)
+      return this.http.delete(this.backEnd + '/' + deleteServiceReq.serviceId + token)
                       .map(
                         (deletedServiceRes: Response) => deletedServiceRes.json()
                       )

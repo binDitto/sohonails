@@ -70,7 +70,7 @@ export class UserSignupComponent implements OnInit {
                  );
 
     this.signUpForm.reset();
-    this.router.navigate(['/auth', 'signup']);
+    this.router.navigate(['/auth', 'login']);
   }
 
 // For Modal

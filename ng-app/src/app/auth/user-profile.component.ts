@@ -1,6 +1,7 @@
+import { User } from './user.model';
 import { AuthService } from './auth.service';
 // REQUIRED
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output } from '@angular/core';
 
 
 @Component({
@@ -9,23 +10,28 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./css/user-profile.component.css']
 })
 export class UserProfileComponent implements OnInit{
-  userProfile: Object;
-  currentUserId = localStorage.getItem('userId');
+
+  @Input() userProfile: User;
 
   constructor(
     private authServ: AuthService
   ){}
 
   ngOnInit(){
-    this.authServ.getProfile(this.currentUserId).subscribe(
-      profile => {
-        this.userProfile = profile.user;
-        console.log(profile.user);
+    this.authServ.getProfile().subscribe(
+      retrievedUser => {
+        this.userProfile = retrievedUser;
+        console.log('Logged in User : ' + retrievedUser.userName);
+        console.log('Username shown on front-end: ' + this.userProfile);
+
       },
       err => {
-        console.log(err);
+        console.error(err);
         return false;
       }
     );
   }
+
+
+
 }

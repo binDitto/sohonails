@@ -130,8 +130,8 @@
 
             res.status(200).json({
                 message: 'Sucessfully logged in',
-                token: 'JWT - ' + token,
-                userId: signedInUserRes._id
+                token: token,
+                user: signedInUserRes
             });
         });
         
@@ -143,20 +143,22 @@
         /*
             Pull user from mongoose mongo db by using req.params.id.
         */
-        User.findById(req.params.id, (err, userProfile) => {
-            if (err) {
-                return res.status(500).json({
-                    title: 'Cannot retrieve profile',
-                    error: err
+        if(req.params.id){
+            User.findById(req.params.id, (err, userProfile) => {
+
+                if (err) {
+                    return res.status(500).json({
+                        title: 'Cannot retrieve profile',
+                        error: err
+                    });
+                }
+
+                res.status(200).json({
+                    message: 'User Profile retrieved',
+                    userObject: userProfile
                 });
-            }
-
-            res.status(200).json({
-                message: 'User Profile retrieved',
-                user: userProfile
             });
-        });
-
+        }    
     });
         
 

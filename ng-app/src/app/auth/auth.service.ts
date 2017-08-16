@@ -1,3 +1,5 @@
+
+// REQUIRED
 import { Injectable, EventEmitter, Output} from '@angular/core';
 
 import { Http, Response, Headers } from '@angular/http';
@@ -12,6 +14,9 @@ import { User } from './user.model';
 
 @Injectable()
 export class AuthService {
+
+  loggedInUser: User;
+  users: User[];
 
   backEnd = 'http://localhost:8080/users'
 
@@ -32,7 +37,11 @@ export class AuthService {
 
     return this.http.post(this.backEnd, requestBody, { headers: jsonHeader })
                     .map(
-                      (createdUserRes: Response) => createdUserRes.json()
+                      (createdUserRes: Response) => {
+                        createdUserRes.json();
+                        console.log(createdUserRes);
+                      }
+
                     )
                     .catch(
                       (error: Response) => {
@@ -80,21 +89,43 @@ export class AuthService {
 
   // GET/RETRIEVE USER
 
-  getProfile(userInfoReq: String){
+  getProfile(){
 
-    const userId = userInfoReq;
+    const userId = localStorage.getItem('userId') ? localStorage.getItem('userId') : '';
 
-    return this.http.get(this.backEnd + '/' + userId)
-                    .map(
-                      (userInfoRes: Response) => userInfoRes.json()
-                    )
-                    .catch(
-                      (error: Response) => {
-                        // this.errorService.handleError(error.json());
+    if(userId !== '') {
+      return this.http.get(this.backEnd + '/' + userId)
+                      .map(
+                        (userInfoRes: Response) => {
+                          const retrievedUser = userInfoRes.json();
 
-                        return Observable.throw(error.json());
-                      }
-                    );
+                          const backToFront = new User(
+                            retrievedUser.userObject.email,
+                            retrievedUser.userObject.password,
+                            retrievedUser.userObject.admin,
+                            retrievedUser.userObject.joinDate,
+                            retrievedUser.userObject.firstName,
+                            retrievedUser.userObject.lastName,
+                            retrievedUser.userObject.userName,
+                            retrievedUser.userObject._id
+                          );
+
+                          this.loggedInUser = backToFront;
+
+                          const msgFromBack = retrievedUser.message;
+                          console.log(msgFromBack);
+
+                          return this.loggedInUser;
+                        }
+                      )
+                      .catch(
+                        (error: Response) => {
+                          // this.errorService.handleError(error.json());
+
+                          return Observable.throw(error.json());
+                        }
+                      );
+    }
 
   }
 

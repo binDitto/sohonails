@@ -7,6 +7,8 @@ export class Service {
     public name: String,
     public price: Number,
     public description: String,
+    public type: String,
+    public createdAt?: String,
     public serviceId?: String,
     public userId?: String,
     public userName?: String

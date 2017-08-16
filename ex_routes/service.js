@@ -21,8 +21,9 @@
         /*
         User mongoose shell command model.find() to 
         fetch correct service.
+            .sort to sert by property, 1 ascending -1 descending.
         */
-        Service.find()
+        Service.find().sort({createdAt: -1})
                 /*
                 Populate (mongoose) will expand the related data to this data
                 that we are fetching. So we can specify which parts of the
@@ -99,6 +100,7 @@
                 name: req.body.name,
                 price: req.body.price,
                 description: req.body.description,
+                type: req.body.type,
                 user: loggedInUser
             });
             
@@ -155,7 +157,7 @@
             /*
             If empty/null or no service data matching the id passed in for editing.
             */
-            if (!editServicRes) {
+            if (!editServiceRes) {
                 return res.status(500).json({
                     title: 'An error occurred, no service found for editing',
                     error: { message: 'Service not found' }
@@ -173,7 +175,14 @@
                 });
             }
 
+            /* 
+                Fields to be edited.
+            */
+            editServiceRes.name = req.body.name;
+            editServiceRes.price = req.body.price;
             editServiceRes.description = req.body.description;
+            editServiceRes.type = req.body.type;
+
             editServiceRes.save((err, editedServiceRes) => {
                 if (err) {
                     return res.status(500).json({
@@ -186,7 +195,7 @@
                 */
                 res. status(200).json({
                     message: 'Service updated!',
-                    obj: editedServicRes
+                    obj: editedServiceRes
                 });
             })
 
@@ -217,7 +226,7 @@
             /*
              If empty/null or no service data matching the id passed in for editing.
              */
-            if (!deleteServicRes) {
+            if (!deleteServiceRes) {
                 return res.status(500).json({
                     title: 'An error occurred, no service found for editing',
                     error: { message: 'Service not found' }

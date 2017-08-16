@@ -14,7 +14,8 @@
         services: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Service'
-        }]
+        }],
+        joinDate: { type: Date, default: Date.now }
     });
 
     userSchema.plugin(uniqueVal);

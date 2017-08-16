@@ -48,10 +48,10 @@ export class UserLoginComponent implements OnInit {
                 .subscribe(
                     data => {
                         localStorage.setItem('token', data.token);
-                        localStorage.setItem('userId', data.userId);
+                        localStorage.setItem('userId', data.user._id);
 
                         this.router.navigateByUrl('/auth/profile');
-                        console.log(data.userId);
+                        console.log(data.user.userName + ': ' + data.user._id);
                     },
                     error => console.error(error)
                 );

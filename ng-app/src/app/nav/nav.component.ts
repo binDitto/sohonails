@@ -1,7 +1,7 @@
 import { AuthService } from '../auth/auth.service';
 
 // REQUIRED
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -12,9 +12,10 @@ import { Router } from '@angular/router';
 })
 export class NavComponent implements OnInit {
 
-  userFirstName: String;
-
-  userId = localStorage.getItem('userId');
+  /*
+    Binds it so that changes are updated.
+  */
+  @Input() userFirstName: String;
 
   constructor(
     private authServ: AuthService,
@@ -22,11 +23,13 @@ export class NavComponent implements OnInit {
   ){}
 
   ngOnInit() {
-    this.authServ.getProfile(this.userId).subscribe(
-      object => {
-        this.userFirstName = object.user.firstName
-      }
-    );
+    if(localStorage.getItem('userId') !== null){
+      this.authServ.getProfile().subscribe(
+        profile => {
+          this.userFirstName = profile.firstName;
+        }
+      );
+    }
   }
 
   /*
