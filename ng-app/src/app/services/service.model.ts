@@ -11,6 +11,7 @@ export class Service {
     public createdAt?: String,
     public serviceId?: String,
     public userId?: String,
-    public userName?: String
+    public userName?: String,
+    public serviceImage?: any
   ){}
 }

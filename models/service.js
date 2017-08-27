@@ -18,6 +18,8 @@
             ref: 'User',
             required: true
         },
+        // image: { data: Buffer, contentType: String },
+        image: { type: Object, required: true },
         createdAt: { type: Date, default: Date.now}
     });
 

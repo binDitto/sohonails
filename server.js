@@ -1,10 +1,11 @@
 // INCLUDE DEPENDENCIES
-const express = require('express');
-const path = require('path');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const passport = require('passport');
-const mongoose = require('mongoose');
+    const express = require('express');
+    const path = require('path');
+    const bodyParser = require('body-parser');
+    const cors = require('cors');
+    const passport = require('passport');
+    const mongoose = require('mongoose');
+    const multer = require('multer');
 
 // INITIALIZE NODE APP
     const app = express();
@@ -48,12 +49,14 @@ const mongoose = require('mongoose');
 
     app.use('/users', userRoutes);
     app.use('/services', serviceRoutes);
+    
     app.get('/', (req, res) => {
         res.render('index');
     });
     app.get('*', (req, res) => {
         res.sendFile(path.join(__dirname, 'public/index.html'));
     });
+   
 
 // RUN SERVER -- NPM START (AS SETUP IN PACKAGE.JSON)
     app.listen(port, ()=>{

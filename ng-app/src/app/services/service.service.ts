@@ -13,7 +13,6 @@ import { Service } from './service.model';
     private services: Service[] = [];
 
 
-
     /*
       The backend node server.
     */
@@ -28,18 +27,18 @@ import { Service } from './service.model';
     ){}
 
     // CREATE (service-form.component.ts)
-    addService(createServiceReq: Service) {
+    addService(createServiceReq: FormData) {
 
       console.log(this.services);
 
-      const requestBody = JSON.stringify(createServiceReq);
+      // const requestBody = JSON.stringify(createServiceReq);
 
       /*
         Add headers to read content as JSON or else it'll automatically read it
         as plain text which will throw a 500 error because we are sending the
         response through as json not plain text.
       */
-      const jsonHeaders = new Headers({ 'Content-Type': 'application/json' });
+      const multipartHeaders = new Headers({ 'enctype': 'multipart/form-data' });
 
       /*
         This token variable will be used to pass the user token onto the URL so
@@ -52,7 +51,7 @@ import { Service } from './service.model';
         Also map the response service properties to the front-end service model for use on the front-end
         of backend data.
       */
-      return this.http.post(this.backEnd + token, requestBody, { headers: jsonHeaders })
+      return this.http.post(this.backEnd + token, createServiceReq, { headers: multipartHeaders })
                       .map(
                         (createdServiceRes: Response) => {
                           // turns createdServiceRes into json format and then saves it to a nerServideData variable.
@@ -69,7 +68,8 @@ import { Service } from './service.model';
                             newServiceData.obj._id,
                             // pull user data from service's user field.
                             newServiceData.obj.user._id,
-                            newServiceData.obj.user.userName
+                            newServiceData.obj.user.userName,
+                            newServiceData.obj.image
                           );
                           this.services.push(newService);
                           return newService;
@@ -113,7 +113,8 @@ import { Service } from './service.model';
                               service.createdAt,
                               service._id,
                               service.user._id,
-                              service.user.userName
+                              service.user.userName,
+                              service.image
                             ));
                           }
                           this.services = transformedServices;
@@ -141,15 +142,16 @@ import { Service } from './service.model';
     }
 
     // UPDATE SERVICE
-    updateService(updateServiceReq: Service) {
+    updateService(updateServiceReq: FormData, serviceId: String) {
 
-      const requestBody = JSON.stringify(updateServiceReq);
+      // const requestBody = JSON.stringify(updateServiceReq);
 
-      const jsonHeader = new Headers({'Content-Type': 'application/json'});
+      // const jsonHeader = new Headers({'Content-Type': 'application/json'});
+      const multipartHeader = new Headers({'enctype': 'multipart/form-data'});
 
       const token =  localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
 
-      return this.http.patch(this.backEnd + '/' + updateServiceReq.serviceId + token, requestBody, {headers: jsonHeader})
+      return this.http.patch(this.backEnd + '/' + serviceId + token, updateServiceReq, {headers: multipartHeader})
                       .map(
                         (updatedServiceRes: Response) => updatedServiceRes.json()
                       )
@@ -187,4 +189,24 @@ import { Service } from './service.model';
                         }
                       );
     }
+
+    // IMAGE UPLOADING
+
+    addImageData(formData, serviceId){
+      const token = localStorage.getItem('token') ? '?token' + localStorage.getItem('token') : '';
+
+      const service = serviceId;
+
+      return this.http.post(this.backEnd + token +  '/images/' + serviceId, formData)
+                      .map(
+                        (createdImageRes => createdImageRes.json())
+                      )
+                      .catch(function (err) {
+                        throw err;
+                      });
+
+
+    }
+
+
   }

@@ -27,16 +27,32 @@
 
         <!-- // Angular detects this form automatically if you've imported FormsModule -->
         <form (ngSubmit)="onSave(f)" #f="ngForm">
+
           <div class="modal-body">
 
             <div class="form-group">
+
+                <div class="input-group input-group-lg" >
+
+                  <span class="input-group-addon">
+                  <i class="fa fa-picture-o"></i>
+                  </span>
+
+                  <input type="file" id="serviceImage" class="form-control" name="serviceImage"
+                       (change)="imageChangeEvent($event)"
+                       required />
+                </div>
+
+            </div>
+
+            <div class="form-group">
               <label for="name">Name</label>
-              <input type="text" id="name" class="form-control" [ngModel]="service?.name" name="name" required>
+              <input type="text" id="name" class="form-control" [ngModel]="service?.name" name="name" required />
             </div>
 
             <div class="form-group">
               <label for="price">Price</label>
-              <input type="number" id="price" class="form-control" [ngModel]="service?.price" name="price"  min="1" max="100" required>
+              <input type="number" id="price" class="form-control" [ngModel]="service?.price" name="price"  min="1" max="100" required />
             </div>
 
             <div class="form-group">

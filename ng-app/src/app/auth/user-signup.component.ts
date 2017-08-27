@@ -43,12 +43,6 @@ export class UserSignupComponent implements OnInit {
       userName: new FormControl(null, Validators.required),
     });
 
-    // For Modal
-    this.authServ.showModal.subscribe(
-      (display) => {
-        this.display = 'display';
-      }
-    );
   }
 
   onSubmit(){

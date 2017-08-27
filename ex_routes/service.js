@@ -9,12 +9,14 @@
 // USE SERVICE MODEL
     const Service = require('../models/service');
 
+// USE SERVICE MODEL
+    const Image = require('../models/image');
+
 // SET ROUTER
     const router = express.Router();
 
 // USE CONFIG.TOKENSECRET
     const config = require('.././config/database');
-
 
 // FETCH
     router.get('/', (req, res, next) => {
@@ -69,11 +71,32 @@
         });
     });
 
+// MULTER USAGE
+
 // SAVE DATA
+    /*
+         multer to save image to diskStorage.
+    */
+    const multer = require('multer');
+    
+
+    const storage = multer.diskStorage({
+        destination: function (req, file, cb) {
+            cb(null, 'ng-app/src/assets/images/services/')
+        },
+        filename: function (req, file, cb) {
+            cb(null, file.fieldname + '-' + Date.now() + '.jpg')
+        }
+    });
+
+    const upload = multer({ storage: storage });
+
     /*
     Made to require a signed in User to create services.
     */
-    router.post('/', (req, res, next) => {
+    router.post('/', upload.single('serviceImage'), createService);
+    
+    function createService(req, res, next) {
         /*
         Doesn't check validity of token but just decodes for usage
         because token is validated in previous route before reaching this point.
@@ -81,10 +104,14 @@
         */
         let decodedToken = jwt.decode(req.query.token);
 
+       
+
         /*
         Use decoded token to locate user ID from database to create a relation to this newly created service.
         */
-        User.findById(decodedToken.user._id, (err, loggedInUser) => {
+        User.findById(decodedToken.user._id, loggedInUserCallBack);
+            
+        function loggedInUserCallBack (err, loggedInUser) {
             if (err) {
                 return res.status(500).json({
                     title: 'An error occurred locating User',
@@ -96,16 +123,21 @@
             This will add a new service and add the returned user 
             from the decoded token(logged on user) and create a relation to that service.
             */
-            let service = new Service({
+            const body = {
                 name: req.body.name,
                 price: req.body.price,
                 description: req.body.description,
                 type: req.body.type,
-                user: loggedInUser
-            });
+                user: loggedInUser,
+                image: req.file
+            };
+            
+            let service = new Service(body);
             
             // Start Service Saving
-            service.save((err, createdServiceRes) => {
+            service.save(createServiceResCallBack);
+
+            function createServiceResCallBack (err, createdServiceRes) {
                 if (err) {
                     return res.status(500).json({
                         title: 'An error occurred registering the service to the db',
@@ -131,13 +163,13 @@
                     message: 'Service saved to DB',
                     obj: createdServiceRes
                 });
-            });
+            }
             // End Service Saving
-        });
-    });
+        }
+    }
 
 // EDIT 
-    router.patch('/:id', (req, res, next) => {
+    router.patch('/:id', upload.single('serviceImage'), (req, res, next) => {
          /*
         Doesn't check validity of token but just decodes for usage
         because token is validated in previous route before reaching this point.
@@ -176,14 +208,47 @@
             }
 
             /* 
+                Create an instance of current edit Service Res before changing values.
+                Use to check whether the image path before is different from image path we're adding
+                from edit form.
+            */
+           const instanceOfEdit = editServiceRes.image.path;
+            
+            /* 
                 Fields to be edited.
             */
             editServiceRes.name = req.body.name;
             editServiceRes.price = req.body.price;
             editServiceRes.description = req.body.description;
             editServiceRes.type = req.body.type;
+            editServiceRes.image = req.file;
+
+            /*
+                if service image path from database does not match path
+                the incoming file path, that means path has changed. We will delete 
+                current image and replace with new path when new image is added.
+            */
+            if ( editServiceRes.image.path !== instanceOfEdit)
+            fs.stat(instanceOfEdit, deleteImage);
+
+            function deleteImage(err, stats) {
+                console.log(stats); // here we got all info of file in stats variable
+
+                if (err) {
+                    return console.error(err);
+                }
+
+                fs.unlink(instanceOfEdit, errorCallBack); // This part does the actually deletion.
+                function errorCallBack(err) {
+                    if (err) return console.log(err);
+                    console.log('image successfully deleted before adding new image');
+                }
+            }
 
             editServiceRes.save((err, editedServiceRes) => {
+
+            
+
                 if (err) {
                     return res.status(500).json({
                         title: 'An error occurred updated/editing the service',
@@ -194,7 +259,7 @@
                 Everything went okay, service updated
                 */
                 res. status(200).json({
-                    message: 'Service updated!',
+                    message: 'Service and image updated!',
                     obj: editedServiceRes
                 });
             })
@@ -205,6 +270,12 @@
     });
 
 // DELETE
+
+    /*
+        fs to delete image from diskStorage.
+    */
+    const fs = require('fs');
+
     router.delete('/:id', (req, res, next) => {
         /*
         Doesn't check validity of token but just decodes for usage
@@ -244,6 +315,25 @@
                 });
             }
 
+            /*
+                Using image path from service to delete the image from diskStorage.
+            */
+            fs.stat(deleteServiceRes.image.path, deleteImage);
+
+            function deleteImage (err, stats) {
+                console.log(stats); // here we got all info of file in stats variable
+
+                if (err) {
+                    return console.error(err);
+                }
+
+                fs.unlink(deleteServiceRes.image.path, errorCallBack); // This part does the actually deletion.
+                function errorCallBack (err) {
+                    if (err) return console.log(err);
+                    console.log('image successfully deleted');
+                }
+            }
+
             deleteServiceRes.remove((err, deletedServiceRes) => {
                 if (err) {
                     return res.status(500).json({
@@ -262,7 +352,9 @@
             })
         });
 
-    })
+    });
+
+
 
 
 // EXPORT THE ROUTER

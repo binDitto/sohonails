@@ -1,3 +1,4 @@
+import { ServiceImageUploadComponent } from './services/service-image-upload.component';
 import { ServiceListComponent } from './services/service-list.component';
 import { ServiceFormComponent } from './services/service-form.component';
 import { HomeComponent } from './home/home.component';
@@ -6,6 +7,7 @@ import { NavComponent } from './nav/nav.component';
 import { ServiceComponent } from './services/service.component';
 import { AuthNavComponent } from './auth/auth-nav.component';
 import { ServiceMainComponent } from './services/service-main.component';
+import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
 
 // PROVIDERS
 import { ServiceService } from './services/service.service';
@@ -27,8 +29,11 @@ import { FormsModule } from '@angular/forms';
     ServiceMainComponent,
     ServiceFormComponent,
     ServiceListComponent,
+    ServiceImageUploadComponent,
     HomeComponent,
-    AuthNavComponent
+    AuthNavComponent,
+    FileSelectDirective,
+    FileDropDirective
   ],
   imports: [
     BrowserModule,

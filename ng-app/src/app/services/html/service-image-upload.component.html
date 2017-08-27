@@ -1,0 +1,56 @@
+<div class="col-md-6 col-md-offset-3">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h1>Log In</h1>
+    </div>
+
+    <div class="panel-body">
+      <!-- data driven reactive approach to forms  -->
+
+      <div ng-show="uploading" class="progress">
+        <div class="progress-bar progress-bar-striped active" role="progressbar" >
+          <span class="sr-only"></span>
+        </div>
+      </div>
+
+      <!-- FORM -->
+      <form  enctype="multipart/form-data">
+
+        <div class="form-group">
+
+          <div class="input-group input-group-lg">
+
+            <span class="input-group-addon">
+                  <i class="fa fa-picture-o"></i>
+            </span>
+
+            <input type="file" class="form-control" name="serviceImage" (change)="fileChangeEvent($event)" placeholder="Upload file..." multiple/>
+            <!-- <input name="serviceImage" type="file" id="serviceImage" ng-disabled="uploading" style="display: none;"/> -->
+            <input name="width" value="50%" style="display: none"/>
+            <input name="templateId" value="serviceImageId" style="display: none"/>
+
+          </div>
+
+        </div>
+
+
+
+        <button class="btn btn-primary" type="submit" (click)="upload()">Upload</button>
+
+
+      </form>
+      <!-- END FORM -->
+      <br/>
+
+      <img style="display: block;" align="center" class="serviceThumbnail" src="http://baxtercoaching.com/wp-content/uploads/2013/12/facebook-default-no-profile-pic-300x300.jpg">
+
+      <br/>
+
+      <div ng-show="message">
+        <div class="alert">{{ message }}</div>
+      </div>
+    </div>
+
+  </div>
+
+</div>

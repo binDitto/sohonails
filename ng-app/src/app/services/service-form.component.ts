@@ -19,6 +19,7 @@ export class ServiceFormComponent implements OnInit {
     [ngModel]='service' is modeling this actual variable.
   */
   service: Service;
+  image: any;
 
   /*
     For select input.
@@ -40,11 +41,22 @@ export class ServiceFormComponent implements OnInit {
     );
   }
 
+
+
+  imageChangeEvent(imageChangeEvent: any) {
+    this.image = <File>imageChangeEvent.target.files;
+
+  }
+
   // SAVE NEW OR UPDATE SERVICE
   onSave(form: NgForm){
 
     console.log(form);
 
+
+
+
+    // FOR SERVICE SAVING
     if (this.service) {
       /*
         Service exists so edit mode.
@@ -53,7 +65,18 @@ export class ServiceFormComponent implements OnInit {
       this.service.price = form.value.price;
       this.service.description = form.value.description;
       this.service.type = form.value.type;
-      this.serviceServ.updateService(this.service)
+
+      const editServiceData = new FormData();
+
+      if (this.image){
+          editServiceData.append('serviceImage', this.image[0], this.image[0].name);
+      }
+      editServiceData.append('name', form.value.name);
+      editServiceData.append('description', form.value.description);
+      editServiceData.append('type', form.value.type);
+      editServiceData.append('price', form.value.price);
+
+      this.serviceServ.updateService(editServiceData, this.service.serviceId)
                       .subscribe(
                         serviceEditedRes => console.log(serviceEditedRes.message)
                       );
@@ -66,14 +89,34 @@ export class ServiceFormComponent implements OnInit {
         form.value.name,
         form.value.price,
         form.value.description,
-        form.value.type
+        form.value.type,
+        this.image[0]
       );
+      // FOR IMAGE SAVING / IMAGE UPLOAD
+      const serviceData = new FormData();
+      // for (let key in newService) {
+      //   if ( key === 'serviceImage'){
+      //     serviceData.append(key, newService[key]);
+      //   } else {
+      //     serviceData.append(key, newService[key]);
+      //   }
 
-      this.serviceServ.addService(newService)
+      // }
+
+      serviceData.append('serviceImage', this.image[0], this.image[0].name);
+      serviceData.append('name', form.value.name);
+      serviceData.append('description', form.value.description);
+      serviceData.append('price', form.value.price);
+      serviceData.append('type', form.value.type);
+
+      console.log('form data variable : ' + serviceData.toString());
+
+      this.serviceServ.addService(serviceData)
         .subscribe(
-        createdServiceRes => console.log(createdServiceRes),
-        err => console.error(err)
+        createdServiceRes => console.log(createdServiceRes)
         );
+
+
 
     }
 
