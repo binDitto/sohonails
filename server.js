@@ -51,7 +51,7 @@
     app.use('/services', serviceRoutes);
     
     app.get('/', (req, res) => {
-        res.render('index');
+        res.send('Invalid Endpoint!');
     });
     app.get('*', (req, res) => {
         res.sendFile(path.join(__dirname, 'public/index.html'));
