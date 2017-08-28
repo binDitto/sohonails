@@ -50,9 +50,8 @@
     app.use('/users', userRoutes);
     app.use('/services', serviceRoutes);
     
-    // reaches no route functionality
     app.get('/', (req, res) => {
-        res.render('INVALID ENDPOINT!');
+        res.render('index');
     });
     app.get('*', (req, res) => {
         res.sendFile(path.join(__dirname, 'public/index.html'));
