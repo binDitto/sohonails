@@ -16,7 +16,9 @@ import { Service } from './service.model';
     /*
       The backend node server.
     */
+
     backEnd = 'http://localhost:8080/services';
+    prodBackEnd = 'services';
 
     /*
       Inject Dependencies/Other Services here.
@@ -51,7 +53,7 @@ import { Service } from './service.model';
         Also map the response service properties to the front-end service model for use on the front-end
         of backend data.
       */
-      return this.http.post(this.backEnd + token, createServiceReq, { headers: multipartHeaders })
+      return this.http.post(this.prodBackEnd + token, createServiceReq, { headers: multipartHeaders })
                       .map(
                         (createdServiceRes: Response) => {
                           // turns createdServiceRes into json format and then saves it to a nerServideData variable.
@@ -89,7 +91,7 @@ import { Service } from './service.model';
       This function will be used to retrieve the array of services from the database to be used.
       */
 
-      return this.http.get(this.backEnd)
+      return this.http.get(this.prodBackEnd)
                       .map(
                         (fetchedServicesRes: Response) => {
 
@@ -151,7 +153,7 @@ import { Service } from './service.model';
 
       const token =  localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
 
-      return this.http.patch(this.backEnd + '/' + serviceId + token, updateServiceReq, {headers: multipartHeader})
+      return this.http.patch(this.prodBackEnd + '/' + serviceId + token, updateServiceReq, {headers: multipartHeader})
                       .map(
                         (updatedServiceRes: Response) => updatedServiceRes.json()
                       )
@@ -177,7 +179,7 @@ import { Service } from './service.model';
       /*
         Back-end Deletion.
       */
-      return this.http.delete(this.backEnd + '/' + deleteServiceReq.serviceId + token)
+      return this.http.delete(this.prodBackEnd + '/' + deleteServiceReq.serviceId + token)
                       .map(
                         (deletedServiceRes: Response) => deletedServiceRes.json()
                       )
@@ -190,23 +192,6 @@ import { Service } from './service.model';
                       );
     }
 
-    // IMAGE UPLOADING
-
-    addImageData(formData, serviceId){
-      const token = localStorage.getItem('token') ? '?token' + localStorage.getItem('token') : '';
-
-      const service = serviceId;
-
-      return this.http.post(this.backEnd + token +  '/images/' + serviceId, formData)
-                      .map(
-                        (createdImageRes => createdImageRes.json())
-                      )
-                      .catch(function (err) {
-                        throw err;
-                      });
-
-
-    }
 
 
   }

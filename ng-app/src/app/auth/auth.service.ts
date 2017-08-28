@@ -19,6 +19,7 @@ export class AuthService {
   users: User[];
 
   backEnd = 'http://localhost:8080/users'
+  prodBackEnd = 'users';
 
   /*
     Constructor needs @Injectable decorator to use other services.
@@ -35,7 +36,7 @@ export class AuthService {
 
     const jsonHeader = new Headers({'Content-Type': 'application/json'});
 
-    return this.http.post(this.backEnd, requestBody, { headers: jsonHeader })
+    return this.http.post(this.prodBackEnd, requestBody, { headers: jsonHeader })
                     .map(
                       (createdUserRes: Response) => {
                         createdUserRes.json();
@@ -59,7 +60,7 @@ export class AuthService {
 
     const jsonHeader = new Headers({'Content-Type': 'application/json'});
 
-    return this.http.post(this.backEnd + '/login', requestBody, { headers: jsonHeader })
+    return this.http.post(this.prodBackEnd + '/login', requestBody, { headers: jsonHeader })
                     .map(
                       (signedInUserRes: Response) => signedInUserRes.json()
                     )
@@ -94,7 +95,7 @@ export class AuthService {
     const userId = localStorage.getItem('userId') ? localStorage.getItem('userId') : '';
 
     if(userId !== '') {
-      return this.http.get(this.backEnd + '/' + userId)
+      return this.http.get(this.prodBackEnd + '/' + userId)
                       .map(
                         (userInfoRes: Response) => {
                           const retrievedUser = userInfoRes.json();

@@ -64,7 +64,7 @@
               <label for="type">Service Type</label>
               <br/>
               <select name="type" id="type" [ngModel]="service?.type" required>
-                <option *ngFor="let type of types" [value]="type.value">{{type.value}}</option>
+                <option *ngFor="let type of types" [value]="type.value" >{{type.value}}</option>
 
               </select>
             </div>
