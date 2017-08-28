@@ -33,7 +33,7 @@
     app.use(cors());
 
 // SET STATIC FOLDER
-    app.use(express.static(path.join(__dirname, '/dist')));
+    app.use(express.static(path.join(__dirname, 'public')));
 
 // PARSE REQ DATA INTO JSON FORMAT WITH 'BODY-PARSER'
     app.use(bodyParser.json());
@@ -55,7 +55,7 @@
         res.render('INVALID ENDPOINT!');
     });
     app.get('*', (req, res) => {
-        res.sendFile(path.join(__dirname, '/dist/index.html'));
+        res.sendFile(path.join(__dirname, 'public/index.html'));
     });
    
 
