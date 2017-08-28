@@ -36,7 +36,7 @@ export class AuthService {
 
     const jsonHeader = new Headers({'Content-Type': 'application/json'});
 
-    return this.http.post('users', requestBody, { headers: jsonHeader })
+    return this.http.post(this.prodBackEnd, requestBody, { headers: jsonHeader })
                     .map(
                       (createdUserRes: Response) => {
                         createdUserRes.json();
@@ -60,7 +60,7 @@ export class AuthService {
 
     const jsonHeader = new Headers({'Content-Type': 'application/json'});
 
-    return this.http.post('users' + '/login', requestBody, { headers: jsonHeader })
+    return this.http.post(this.prodBackEnd + '/login', requestBody, { headers: jsonHeader })
                     .map(
                       (signedInUserRes: Response) => signedInUserRes.json()
                     )
@@ -95,7 +95,7 @@ export class AuthService {
     const userId = localStorage.getItem('userId') ? localStorage.getItem('userId') : '';
 
     if(userId !== '') {
-      return this.http.get('users' + '/' + userId)
+      return this.http.get(this.prodBackEnd + '/' + userId)
                       .map(
                         (userInfoRes: Response) => {
                           const retrievedUser = userInfoRes.json();

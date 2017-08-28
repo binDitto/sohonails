@@ -271,7 +271,7 @@ var AuthService = (function () {
     AuthService.prototype.signup = function (createUserReq) {
         var requestBody = JSON.stringify(createUserReq);
         var jsonHeader = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Headers */]({ 'Content-Type': 'application/json' });
-        return this.http.post('users', requestBody, { headers: jsonHeader })
+        return this.http.post(this.prodBackEnd, requestBody, { headers: jsonHeader })
             .map(function (createdUserRes) {
             createdUserRes.json();
             console.log(createdUserRes);
@@ -285,7 +285,7 @@ var AuthService = (function () {
     AuthService.prototype.login = function (signInUserReq) {
         var requestBody = JSON.stringify(signInUserReq);
         var jsonHeader = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Headers */]({ 'Content-Type': 'application/json' });
-        return this.http.post('users' + '/login', requestBody, { headers: jsonHeader })
+        return this.http.post(this.prodBackEnd + '/login', requestBody, { headers: jsonHeader })
             .map(function (signedInUserRes) { return signedInUserRes.json(); })
             .catch(function (error) {
             // this.errorService.handleError(error.json());
@@ -310,7 +310,7 @@ var AuthService = (function () {
         var _this = this;
         var userId = localStorage.getItem('userId') ? localStorage.getItem('userId') : '';
         if (userId !== '') {
-            return this.http.get('users' + '/' + userId)
+            return this.http.get(this.prodBackEnd + '/' + userId)
                 .map(function (userInfoRes) {
                 var retrievedUser = userInfoRes.json();
                 var backToFront = new __WEBPACK_IMPORTED_MODULE_4__user_model__["a" /* User */](retrievedUser.userObject.email, retrievedUser.userObject.password, retrievedUser.userObject.admin, retrievedUser.userObject.joinDate, retrievedUser.userObject.firstName, retrievedUser.userObject.lastName, retrievedUser.userObject.userName, retrievedUser.userObject._id);
@@ -1062,7 +1062,7 @@ var ServiceService = (function () {
           Also map the response service properties to the front-end service model for use on the front-end
           of backend data.
         */
-        return this.http.post('services' + token, createServiceReq, { headers: multipartHeaders })
+        return this.http.post(this.prodBackEnd + token, createServiceReq, { headers: multipartHeaders })
             .map(function (createdServiceRes) {
             // turns createdServiceRes into json format and then saves it to a nerServideData variable.
             var newServiceData = createdServiceRes.json();
@@ -1087,7 +1087,7 @@ var ServiceService = (function () {
         This function will be used to retrieve the array of services from the database to be used.
         */
         var _this = this;
-        return this.http.get('services')
+        return this.http.get(this.prodBackEnd)
             .map(function (fetchedServicesRes) {
             console.log(fetchedServicesRes.json().message);
             var servicesToTransform = fetchedServicesRes.json().obj;
@@ -1126,7 +1126,7 @@ var ServiceService = (function () {
         // const jsonHeader = new Headers({'Content-Type': 'application/json'});
         var multipartHeader = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Headers */]({ 'enctype': 'multipart/form-data' });
         var token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
-        return this.http.patch('services' + '/' + serviceId + token, updateServiceReq, { headers: multipartHeader })
+        return this.http.patch(this.prodBackEnd + '/' + serviceId + token, updateServiceReq, { headers: multipartHeader })
             .map(function (updatedServiceRes) { return updatedServiceRes.json(); })
             .catch(function (error) {
             // this.errorService.handleError(error.json());
@@ -1143,7 +1143,7 @@ var ServiceService = (function () {
         /*
           Back-end Deletion.
         */
-        return this.http.delete('services' + '/' + deleteServiceReq.serviceId + token)
+        return this.http.delete(this.prodBackEnd + '/' + deleteServiceReq.serviceId + token)
             .map(function (deletedServiceRes) { return deletedServiceRes.json(); })
             .catch(function (error) {
             // this.errorService.handleError(error.json());
