@@ -5,7 +5,6 @@
     const cors = require('cors');
     const passport = require('passport');
     const mongoose = require('mongoose');
-    const multer = require('multer');
 
 // INITIALIZE NODE APP
     const app = express();
