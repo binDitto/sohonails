@@ -1084,11 +1084,12 @@ var ServiceService = (function () {
     };
     // FETCH SERVICES (service-list.component.ts)
     ServiceService.prototype.getServices = function () {
+        var _this = this;
         /*
         This function will be used to retrieve the array of services from the database to be used.
         */
-        var _this = this;
-        return this.http.get(this.prodBackEnd)
+        var jsonHeaders = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Headers */]({ 'Content-Type': 'application/json' });
+        return this.http.get(this.prodBackEnd, { headers: jsonHeaders })
             .map(function (fetchedServicesRes) {
             console.log(fetchedServicesRes.json().message);
             var servicesToTransform = fetchedServicesRes.json().obj;

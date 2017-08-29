@@ -90,8 +90,9 @@ import { Service } from './service.model';
       /*
       This function will be used to retrieve the array of services from the database to be used.
       */
+      const jsonHeaders = new Headers({'Content-Type': 'application/json'});
 
-      return this.http.get(this.prodBackEnd)
+      return this.http.get(this.prodBackEnd, {headers: jsonHeaders})
                       .map(
                         (fetchedServicesRes: Response) => {
 
