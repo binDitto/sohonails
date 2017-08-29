@@ -57,7 +57,15 @@ export class UserSignupComponent implements OnInit {
       this.signUpForm.value.userName,
     );
 
-    this.authServ.signup(createUser)
+    const requestBody = {
+      email: this.signUpForm.value.email,
+      password: this.signUpForm.value.password,
+      firstName: this.signUpForm.value.firstName,
+      lastName: this.signUpForm.value.lastName,
+      userName: this.signUpForm.value.userName
+    };
+
+    this.authServ.signup(requestBody)
                  .subscribe(
                    createdUserRes => console.log(createdUserRes),
                    error => console.error(error)

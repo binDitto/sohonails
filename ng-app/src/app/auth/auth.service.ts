@@ -15,19 +15,19 @@ import { User } from './user.model';
 @Injectable()
 export class AuthService {
 
-  loggedInUser: User;
-  users: User[];
+      loggedInUser: User;
+      users: User[];
 
-  backEnd = 'http://localhost:8080/users'
-  prodBackEnd = 'users';
+      backEnd = 'http://localhost:8080/users'
+      prodBackEnd = 'users';
 
-  /*
-    Constructor needs @Injectable decorator to use other services.
-  */
-  constructor(
-    private http: Http
-    // private errorService: ErrorService
-  ){}
+      /*
+        Constructor needs @Injectable decorator to use other services.
+      */
+      constructor(
+        private http: Http
+        // private errorService: ErrorService
+      ){}
 
   // CREATE USER
   signup(createUserReq: User) {

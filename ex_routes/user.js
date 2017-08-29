@@ -22,7 +22,7 @@
         For this app, use: Postman.
         
         */
-        const user = new User({
+        const body = {
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             userName: req.body.userName,
@@ -34,7 +34,9 @@
 
             */
             password: bcrypt.hashSync(req.body.password, 10)
-        });
+        };
+
+        const user = new User(body);
 
         /* 
         If first User, admin status will be set to true,
