@@ -15,6 +15,8 @@ export class ServiceComponent implements OnInit{
 
   @Input() service: Service;
 
+  imgSrc = '../../../../public/assets/images/services/{{service.serviceImage.filename }}';
+
   constructor(
     private serviceServ: ServiceService
   ){}
