@@ -75,11 +75,14 @@ import { Service } from './service.model';
                           );
                           this.services.push(newService);
                           return newService;
+
                         })
                         .catch(
                           (error: Response) => {
                             // this.errorService.handleError(error.json());
                             // needs to return observable, can't be voide of returns.
+                            const newError = error.json();
+                            console.log(newError.title + ' ' + newError.error);
                             return Observable.throw(error.json());
                           }
                         );

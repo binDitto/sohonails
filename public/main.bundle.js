@@ -1078,6 +1078,8 @@ var ServiceService = (function () {
             .catch(function (error) {
             // this.errorService.handleError(error.json());
             // needs to return observable, can't be voide of returns.
+            var newError = error.json();
+            console.log(newError.title + ' ' + newError.error);
             return __WEBPACK_IMPORTED_MODULE_2_rxjs__["Observable"].throw(error.json());
         });
     };
