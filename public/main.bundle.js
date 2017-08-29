@@ -930,7 +930,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var ServiceComponent = (function () {
     function ServiceComponent(serviceServ) {
         this.serviceServ = serviceServ;
-        this.imgSrc = '../../../../public/assets/images/services/{{service.serviceImage.filename }}';
+        this.imgSrc = '../../../../public/assets/images/services/' + this.service.serviceImage.filename;
     }
     ServiceComponent.prototype.ngOnInit = function () { };
     /*
