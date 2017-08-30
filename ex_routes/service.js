@@ -82,7 +82,7 @@
 
     const storage = multer.diskStorage({
         destination: function (req, file, cb) {
-            cb(null, 'public/assets/images/services/')
+            cb(null, 'assets/images/services/')
         },
         filename: function (req, file, cb) {
             cb(null, file.fieldname + '-' + Date.now() + '.jpg')
