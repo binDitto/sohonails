@@ -730,16 +730,20 @@ var ServiceFormComponent = (function () {
     };
     return ServiceFormComponent;
 }());
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__angular_core__["q" /* Input */])(),
+    __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__service_model__["a" /* Service */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__service_model__["a" /* Service */]) === "function" && _a || Object)
+], ServiceFormComponent.prototype, "service", void 0);
 ServiceFormComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__angular_core__["W" /* Component */])({
         selector: 'service-form',
         template: __webpack_require__("../../../../../src/app/services/html/service-form.component.html"),
         styles: [__webpack_require__("../../../../../src/app/services/css/service-form.component.css")]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* Router */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__service_service__["a" /* ServiceService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__service_service__["a" /* ServiceService */]) === "function" && _b || Object])
+    __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* Router */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_0__service_service__["a" /* ServiceService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__service_service__["a" /* ServiceService */]) === "function" && _c || Object])
 ], ServiceFormComponent);
 
-var _a, _b;
+var _a, _b, _c;
 //# sourceMappingURL=service-form.component.js.map
 
 /***/ }),
@@ -838,6 +842,10 @@ var ServiceListComponent = (function () {
     };
     return ServiceListComponent;
 }());
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["q" /* Input */])(),
+    __metadata("design:type", Array)
+], ServiceListComponent.prototype, "services", void 0);
 ServiceListComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["W" /* Component */])({
         selector: 'service-list',

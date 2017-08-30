@@ -2,7 +2,7 @@ import { Service } from './service.model';
 import { ServiceService } from './service.service';
 
 // REQUIRED
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'service-list',
@@ -11,7 +11,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ServiceListComponent implements OnInit {
 
-  services: Service[];
+  @Input() services: Service[];
 
   constructor(
     private serviceServ: ServiceService

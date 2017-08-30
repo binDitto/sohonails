@@ -2,7 +2,7 @@ import { ServiceService } from './service.service';
 import { Service } from './service.model';
 
 // REQUIRED
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 declare const jQuery: any;
@@ -19,7 +19,7 @@ export class ServiceFormComponent implements OnInit {
     this variable will be used for new, and edit services.
     [ngModel]='service' is modeling this actual variable.
   */
-  service: Service;
+  @Input() service: Service;
   image: any;
 
   /*
