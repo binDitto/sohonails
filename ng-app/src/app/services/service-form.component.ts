@@ -81,11 +81,7 @@ export class ServiceFormComponent implements OnInit {
                         (serviceEditedRes) => {
                           console.log(serviceEditedRes.message);
 
-                          this.service.name = serviceEditedRes.name;
-                          this.service.price = serviceEditedRes.price;
-                          this.service.description = serviceEditedRes.description;
-                          this.service.type = serviceEditedRes.type;
-                          this.service.serviceImage = serviceEditedRes.serviceImage;
+                         this.service = serviceEditedRes;
 
                         }
 

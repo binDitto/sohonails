@@ -690,11 +690,7 @@ var ServiceFormComponent = (function () {
             this.serviceServ.updateService(editServiceData, this.service.serviceId)
                 .subscribe(function (serviceEditedRes) {
                 console.log(serviceEditedRes.message);
-                _this.service.name = serviceEditedRes.name;
-                _this.service.price = serviceEditedRes.price;
-                _this.service.description = serviceEditedRes.description;
-                _this.service.type = serviceEditedRes.type;
-                _this.service.serviceImage = serviceEditedRes.serviceImage;
+                _this.service = serviceEditedRes;
             });
             this.service = null;
         }
