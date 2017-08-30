@@ -75,14 +75,11 @@ import { Service } from './service.model';
                           );
                           this.services.push(newService);
                           return newService;
-
                         })
                         .catch(
                           (error: Response) => {
                             // this.errorService.handleError(error.json());
                             // needs to return observable, can't be voide of returns.
-                            const newError = error.json();
-                            console.log(newError.title + ' ' + newError.error);
                             return Observable.throw(error.json());
                           }
                         );
@@ -93,9 +90,8 @@ import { Service } from './service.model';
       /*
       This function will be used to retrieve the array of services from the database to be used.
       */
-      const jsonHeaders = new Headers({'Content-Type': 'application/json'});
 
-      return this.http.get(this.prodBackEnd, {headers: jsonHeaders})
+      return this.http.get(this.prodBackEnd)
                       .map(
                         (fetchedServicesRes: Response) => {
 

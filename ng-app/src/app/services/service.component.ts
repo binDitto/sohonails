@@ -15,7 +15,6 @@ export class ServiceComponent implements OnInit{
 
   @Input() service: Service;
 
-
   constructor(
     private serviceServ: ServiceService
   ){}
