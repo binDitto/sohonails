@@ -83,7 +83,7 @@ export class ServiceFormComponent implements OnInit {
                         (serviceEditedRes) => {
                           console.log(serviceEditedRes.message);
 
-                          this.router.navigateByUrl('/services');
+
 
                         }
 
@@ -131,7 +131,7 @@ export class ServiceFormComponent implements OnInit {
 
     }
 
-
+    this.router.navigateByUrl('/services');
     // document.getElementById('myModal').style.display="none";
     jQuery('#myModal').modal('hide');
 

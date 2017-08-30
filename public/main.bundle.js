@@ -671,7 +671,6 @@ var ServiceFormComponent = (function () {
     };
     // SAVE NEW OR UPDATE SERVICE
     ServiceFormComponent.prototype.onSave = function (form) {
-        var _this = this;
         console.log(form);
         // FOR SERVICE SAVING
         if (this.service) {
@@ -693,7 +692,6 @@ var ServiceFormComponent = (function () {
             this.serviceServ.updateService(editServiceData, this.service.serviceId)
                 .subscribe(function (serviceEditedRes) {
                 console.log(serviceEditedRes.message);
-                _this.router.navigateByUrl('/services');
             });
             this.service = null;
         }
@@ -721,6 +719,7 @@ var ServiceFormComponent = (function () {
             this.serviceServ.addService(serviceData)
                 .subscribe(function (createdServiceRes) { return console.log(createdServiceRes); });
         }
+        this.router.navigateByUrl('/services');
         // document.getElementById('myModal').style.display="none";
         jQuery('#myModal').modal('hide');
         form.resetForm();
