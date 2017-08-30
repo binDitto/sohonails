@@ -61,10 +61,10 @@ export class ServiceFormComponent implements OnInit {
       /*
         Service exists so edit mode.
       */
-      this.service.name = form.value.name;
-      this.service.price = form.value.price;
-      this.service.description = form.value.description;
-      this.service.type = form.value.type;
+      // this.service.name = form.value.name;
+      // this.service.price = form.value.price;
+      // this.service.description = form.value.description;
+      // this.service.type = form.value.type;
 
       const editServiceData = new FormData();
 
@@ -78,8 +78,21 @@ export class ServiceFormComponent implements OnInit {
 
       this.serviceServ.updateService(editServiceData, this.service.serviceId)
                       .subscribe(
-                        serviceEditedRes => console.log(serviceEditedRes.message)
+                        (serviceEditedRes) => {
+                          console.log(serviceEditedRes.message);
+
+                          this.service.name = serviceEditedRes.name;
+                          this.service.price = serviceEditedRes.price;
+                          this.service.description = serviceEditedRes.description;
+                          this.service.type = serviceEditedRes.type;
+                          this.service.serviceImage = serviceEditedRes.serviceImage;
+
+                        }
+
+
                       );
+
+                      this.service = null;
     } else {
       /*
         Service don't exist so new mode.

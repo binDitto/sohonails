@@ -668,16 +668,17 @@ var ServiceFormComponent = (function () {
     };
     // SAVE NEW OR UPDATE SERVICE
     ServiceFormComponent.prototype.onSave = function (form) {
+        var _this = this;
         console.log(form);
         // FOR SERVICE SAVING
         if (this.service) {
             /*
               Service exists so edit mode.
             */
-            this.service.name = form.value.name;
-            this.service.price = form.value.price;
-            this.service.description = form.value.description;
-            this.service.type = form.value.type;
+            // this.service.name = form.value.name;
+            // this.service.price = form.value.price;
+            // this.service.description = form.value.description;
+            // this.service.type = form.value.type;
             var editServiceData = new FormData();
             if (this.image) {
                 editServiceData.append('serviceImage', this.image[0], this.image[0].name);
@@ -687,7 +688,15 @@ var ServiceFormComponent = (function () {
             editServiceData.append('type', form.value.type);
             editServiceData.append('price', form.value.price);
             this.serviceServ.updateService(editServiceData, this.service.serviceId)
-                .subscribe(function (serviceEditedRes) { return console.log(serviceEditedRes.message); });
+                .subscribe(function (serviceEditedRes) {
+                console.log(serviceEditedRes.message);
+                _this.service.name = serviceEditedRes.name;
+                _this.service.price = serviceEditedRes.price;
+                _this.service.description = serviceEditedRes.description;
+                _this.service.type = serviceEditedRes.type;
+                _this.service.serviceImage = serviceEditedRes.serviceImage;
+            });
+            this.service = null;
         }
         else {
             /*
