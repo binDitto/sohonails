@@ -155,7 +155,10 @@ import { Service } from './service.model';
 
       return this.http.patch(this.prodBackEnd + '/' + serviceId + token, updateServiceReq, {headers: multipartHeader})
                       .map(
-                        (updatedServiceRes: Response) => updatedServiceRes.json()
+                        (updatedServiceRes: Response) => {
+                          const updatedService = updatedServiceRes.json();
+                          return updatedService;
+                        }
                       )
                       .catch(
                         (error: Response) => {

@@ -4,6 +4,7 @@ import { Service } from './service.model';
 // REQUIRED
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 declare const jQuery: any;
 
 @Component({
@@ -32,6 +33,7 @@ export class ServiceFormComponent implements OnInit {
   ]
 
   constructor(
+    private router: Router,
     private serviceServ: ServiceService
   ){}
 
@@ -81,7 +83,7 @@ export class ServiceFormComponent implements OnInit {
                         (serviceEditedRes) => {
                           console.log(serviceEditedRes.message);
 
-                         this.service = serviceEditedRes;
+                          this.router.navigateByUrl('/services');
 
                         }
 

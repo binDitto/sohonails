@@ -632,6 +632,7 @@ module.exports = "<div class=\"col-md-4\">\n  <article class=\"panel panel-defau
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__service_service__ = __webpack_require__("../../../../../src/app/services/service.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__service_model__ = __webpack_require__("../../../../../src/app/services/service.model.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ServiceFormComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -646,8 +647,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 // REQUIRED
 
+
 var ServiceFormComponent = (function () {
-    function ServiceFormComponent(serviceServ) {
+    function ServiceFormComponent(router, serviceServ) {
+        this.router = router;
         this.serviceServ = serviceServ;
         /*
           For select input.
@@ -690,7 +693,7 @@ var ServiceFormComponent = (function () {
             this.serviceServ.updateService(editServiceData, this.service.serviceId)
                 .subscribe(function (serviceEditedRes) {
                 console.log(serviceEditedRes.message);
-                _this.service = serviceEditedRes;
+                _this.router.navigateByUrl('/services');
             });
             this.service = null;
         }
@@ -734,10 +737,10 @@ ServiceFormComponent = __decorate([
         template: __webpack_require__("../../../../../src/app/services/html/service-form.component.html"),
         styles: [__webpack_require__("../../../../../src/app/services/css/service-form.component.css")]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__service_service__["a" /* ServiceService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__service_service__["a" /* ServiceService */]) === "function" && _a || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* Router */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__service_service__["a" /* ServiceService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__service_service__["a" /* ServiceService */]) === "function" && _b || Object])
 ], ServiceFormComponent);
 
-var _a;
+var _a, _b;
 //# sourceMappingURL=service-form.component.js.map
 
 /***/ }),
@@ -1132,7 +1135,10 @@ var ServiceService = (function () {
         var multipartHeader = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Headers */]({ 'enctype': 'multipart/form-data' });
         var token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
         return this.http.patch(this.prodBackEnd + '/' + serviceId + token, updateServiceReq, { headers: multipartHeader })
-            .map(function (updatedServiceRes) { return updatedServiceRes.json(); })
+            .map(function (updatedServiceRes) {
+            var updatedService = updatedServiceRes.json();
+            return updatedService;
+        })
             .catch(function (error) {
             // this.errorService.handleError(error.json());
             return __WEBPACK_IMPORTED_MODULE_2_rxjs__["Observable"].throw(error.json());
