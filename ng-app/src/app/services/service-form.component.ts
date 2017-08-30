@@ -83,7 +83,7 @@ export class ServiceFormComponent implements OnInit {
                         (serviceEditedRes) => {
                           console.log(serviceEditedRes.message);
 
-
+                          this.service = serviceEditedRes;
 
                         }
 

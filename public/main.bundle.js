@@ -671,6 +671,7 @@ var ServiceFormComponent = (function () {
     };
     // SAVE NEW OR UPDATE SERVICE
     ServiceFormComponent.prototype.onSave = function (form) {
+        var _this = this;
         console.log(form);
         // FOR SERVICE SAVING
         if (this.service) {
@@ -692,6 +693,7 @@ var ServiceFormComponent = (function () {
             this.serviceServ.updateService(editServiceData, this.service.serviceId)
                 .subscribe(function (serviceEditedRes) {
                 console.log(serviceEditedRes.message);
+                _this.service = serviceEditedRes;
             });
             this.service = null;
         }
